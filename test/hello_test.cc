@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <rapidcheck/gtest.h>
+#include "SecondOrderDynamics.h"
 
 // Demonstrate some basic assertions.
 TEST(HelloTest, BasicAssertions) {
@@ -13,4 +14,8 @@ TEST(MyTest, MyProperty) {
   rc::check([](int x, int y) {
     ASSERT_TRUE(x + y == y + x);
   });
+}
+
+TEST(SecondOrderTest, BasicAssertions) {
+
 }

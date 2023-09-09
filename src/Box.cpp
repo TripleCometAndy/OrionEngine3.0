@@ -13,12 +13,25 @@ Box::Box(double x, double y, unsigned int width, unsigned int height, unsigned i
     futureX = x;
     futureY = y;
 
+    realX = x;
+    realY = y;
+    settleX = x;
+    settleY = y;
+
+    futureRealX = x;
+    futureRealY = y;
+    futureSettleX = x;
+    futureSettleY = y;
+
     this->r = (1.0f/255)*r;
     this->g = (1.0f/255)*g;
     this->b = (1.0f/255)*b;
 
     this->virtualWidth = virtualWidth;
     this->virtualHeight = virtualHeight;
+
+    xDynamic = new SecondOrderDynamics(1, 1, 0, x);
+    yDynamic = new SecondOrderDynamics(1, 1, 0, y);
 
     transform = gl::createTransformationMatrix();
 
@@ -114,8 +127,8 @@ void Box::handleStateChanges(std::set<InputType>* currentInputs, std::set<Joysti
                 double finalX = normalizedX * 4;
                 double finalY = normalizedY * 4;
 
-                futureX += finalX;
-                futureY -= finalY;
+                futureSettleX += finalX;
+                futureSettleY -= finalY;
             }
 
             break;
@@ -123,17 +136,21 @@ void Box::handleStateChanges(std::set<InputType>* currentInputs, std::set<Joysti
     }
     
     if (currentInputs->find(InputType::UP_ARROW) != currentInputs->end()) {
-		futureY += 4;
+		futureSettleY += 4;
 	}
 	else if (currentInputs->find(InputType::LEFT_ARROW) != currentInputs->end()) {
-		futureX -= 4;
+		futureSettleX -= 4;
 	}
 	else if (currentInputs->find(InputType::RIGHT_ARROW) != currentInputs->end()) {
-		futureX += 4;
+		futureSettleX += 4;
 	}
 	else if (currentInputs->find(InputType::DOWN_ARROW) != currentInputs->end()) {
-		futureY -= 4;
+		futureSettleY -= 4;
 	}
+
+    futureX = xDynamic->update(futureSettleX);
+    futureY = yDynamic->update(futureSettleY);
+
 
     Hitbox* futurePosition = new Hitbox();
 	futurePosition->x = futureX;
@@ -154,6 +171,9 @@ void Box::enactStateChanges() {
 
 	x = futureX;
 	y = futureY;
+
+    settleX = futureSettleX;
+    settleY = futureSettleY;
 
 	for (Hitbox* hitbox : hitboxes) {
 		hitbox->x += differenceX;

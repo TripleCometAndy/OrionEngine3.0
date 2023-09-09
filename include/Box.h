@@ -1,6 +1,7 @@
 #pragma once
 
 #include "OrionEntity.h"
+#include "SecondOrderDynamics.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -13,6 +14,19 @@ private:
     float r;
     float g;
     float b;
+
+    double realX;
+    double realY;
+    double settleX;
+    double settleY;
+
+    double futureRealX;
+    double futureRealY;
+    double futureSettleX;
+    double futureSettleY;
+
+    SecondOrderDynamics * xDynamic;
+    SecondOrderDynamics * yDynamic;
 
     unsigned int virtualWidth;
     unsigned int virtualHeight;

@@ -14,4 +14,5 @@ target_sources(OrionEngine PRIVATE
     Utils.cpp
     glad.c
     Box.cpp
+    SecondOrderDynamics.cpp
 )

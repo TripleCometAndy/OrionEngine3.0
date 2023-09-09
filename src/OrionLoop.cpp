@@ -6,6 +6,7 @@
 #include "Timer.h"
 #include "Utils.h"
 #include "IOException.h"
+#include "SecondOrderDynamics.h"
 
 #include <iostream>
 
