@@ -12,16 +12,17 @@ SecondOrderDynamics::SecondOrderDynamics(double f, double z, double r, double x0
     yd = 0;
 }
 
-double SecondOrderDynamics::update(double x, double xd) {
-    y = y + 1 * yd;
-    yd = yd + 1 * (x + k3*xd - y - k1*yd) / k2;
+double SecondOrderDynamics::update(double t, double x, double xd) {
+    y = y + t * yd;
+    yd = yd + t * (x + k3*xd - y - k1*yd) / k2;
 
     return y;
 }
 
-double SecondOrderDynamics::update(double x) {
+double SecondOrderDynamics::update(double t, double x) {
     double xd = (x - xp);
+
     xp = x;
 
-    return update(x, xd);
+    return update(t, x, xd);
 }

@@ -39,6 +39,7 @@ target_link_libraries(
   hello_test
   GTest::gtest_main
   rapidcheck
+  OrionEngineLib
 )
 
 include(GoogleTest)

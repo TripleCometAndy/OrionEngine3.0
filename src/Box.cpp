@@ -30,8 +30,8 @@ Box::Box(double x, double y, unsigned int width, unsigned int height, unsigned i
     this->virtualWidth = virtualWidth;
     this->virtualHeight = virtualHeight;
 
-    xDynamic = new SecondOrderDynamics(1, 1, 0, x);
-    yDynamic = new SecondOrderDynamics(1, 1, 0, y);
+    xDynamic = new SecondOrderDynamics(-0.3125, -0.3125, 1.875, x);
+    yDynamic = new SecondOrderDynamics(-0.3125, -0.3125, 1.875, y);
 
     transform = gl::createTransformationMatrix();
 
@@ -148,8 +148,8 @@ void Box::handleStateChanges(std::set<InputType>* currentInputs, std::set<Joysti
 		futureSettleY -= 4;
 	}
 
-    futureX = xDynamic->update(futureSettleX);
-    futureY = yDynamic->update(futureSettleY);
+    futureX = xDynamic->update(1/(double)60, futureSettleX);
+    futureY = yDynamic->update(1/(double)60, futureSettleY);
 
 
     Hitbox* futurePosition = new Hitbox();

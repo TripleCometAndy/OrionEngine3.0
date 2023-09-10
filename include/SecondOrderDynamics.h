@@ -10,6 +10,6 @@ private:
     double k3;
 public:
     SecondOrderDynamics(double f, double z, double r, double x0);
-    double update(double x, double xd);
-    double update(double x);
+    double update(double t, double x, double xd);
+    double update(double t, double x);
 };
