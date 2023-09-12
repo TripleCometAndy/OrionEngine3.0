@@ -26,3 +26,9 @@ double SecondOrderDynamics::update(double t, double x) {
 
     return update(t, x, xd);
 }
+
+void SecondOrderDynamics::setFZR(double f, double z, double r) {
+    k1 = z / (3.14 * f);
+    k2 = 1 / ((2 * 3.14 * f) * (2 * 3.14 * f));
+    k3 = r * z / (2 * 3.14 * f);
+}

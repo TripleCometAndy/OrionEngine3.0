@@ -129,6 +129,9 @@ void Box::handleStateChanges(std::set<InputType>* currentInputs, std::set<Joysti
 
                 futureSettleX += finalX;
                 futureSettleY -= finalY;
+
+                xDynamic->setFZR(1, 1, -200);
+                yDynamic->setFZR(1, 1, -200);
             }
 
             break;
@@ -136,17 +139,33 @@ void Box::handleStateChanges(std::set<InputType>* currentInputs, std::set<Joysti
     }
     
     if (currentInputs->find(InputType::UP_ARROW) != currentInputs->end()) {
-		futureSettleY += 4;
+		futureSettleY += 9.2;
+
+        xDynamic->setFZR(1, 1, 0);
+        yDynamic->setFZR(1, 1, 0);
 	}
 	else if (currentInputs->find(InputType::LEFT_ARROW) != currentInputs->end()) {
-		futureSettleX -= 4;
+		futureSettleX -= 9,2;
+
+        xDynamic->setFZR(1, 1, 0);
+        yDynamic->setFZR(1, 1, 0);
 	}
 	else if (currentInputs->find(InputType::RIGHT_ARROW) != currentInputs->end()) {
-		futureSettleX += 4;
+		futureSettleX += 9.2;
+
+        xDynamic->setFZR(1, 1, 0);
+        yDynamic->setFZR(1, 1, 0);
 	}
 	else if (currentInputs->find(InputType::DOWN_ARROW) != currentInputs->end()) {
-		futureSettleY -= 4;
+		futureSettleY -= 9.2;
+
+        xDynamic->setFZR(1, 1, 0);
+        yDynamic->setFZR(1, 1, 0);
 	}
+    else {
+        xDynamic->setFZR(-0.3125, -0.3125, 1.875);
+        yDynamic->setFZR(-0.3125, -0.3125, 1.875);
+    }
 
     futureX = xDynamic->update(1/(double)60, futureSettleX);
     futureY = yDynamic->update(1/(double)60, futureSettleY);

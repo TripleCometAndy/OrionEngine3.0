@@ -12,4 +12,5 @@ public:
     SecondOrderDynamics(double f, double z, double r, double x0);
     double update(double t, double x, double xd);
     double update(double t, double x);
+    void setFZR(double f, double z, double r);
 };

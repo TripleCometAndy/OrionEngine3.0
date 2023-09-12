@@ -65,14 +65,13 @@ void OrionLoop::execute() {
         return;
     }
 
-	gl::setViewport(0, 0, 800, 600);
+	gl::setViewport(0, 0, 800, 800);
 	gl::setWindowResizeEvent(window);
 
 	int TICKS_PER_FRAME = 1000 / FPS;
 	bool hasController = false;
 	Camera* c = new Camera();
-	Box * b = new Box(0, 0, 500, 500, 2000, 2000, 222, 72, 31);
-	Box * b2 = new Box(600, 600, 300, 400, 2000, 2000, 165, 93, 201);
+	Box * b = new Box(0, 0, 135, 195, 2000, 2000, 222, 72, 31);
 	CollisionMap* collisionMap = new CollisionMap(2000, 2000, 107);
 
 	//Instantiate EntityManager
@@ -81,7 +80,6 @@ void OrionLoop::execute() {
 	//Add entities to entity manager
 	entityManager->addEntity(c);
 	entityManager->addEntity(b);
-	entityManager->addEntity(b2);
 
 	int simulationTime = 0;
     Timer timer;
