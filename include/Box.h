@@ -15,6 +15,8 @@ private:
     float g;
     float b;
 
+    const double VELOCITY = 9.2;
+
     double realX;
     double realY;
     double settleX;
@@ -33,6 +35,8 @@ private:
 
     glm::mat4 transform;
 
+    void handleJoystickInput(std::set<JoystickInput *> * joystickInputs);
+    void handleArrowKeyInput(std::set<InputType>* currentInputs);
 
 public:
     Box(double x, double y, unsigned int width, unsigned int height, unsigned int virtualWidth, unsigned int virtualHeight, int r, int g, int b);

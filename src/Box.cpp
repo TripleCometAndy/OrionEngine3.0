@@ -109,11 +109,19 @@ Box::Box(double x, double y, unsigned int width, unsigned int height, unsigned i
 }
 
 void Box::handleStateChanges(std::set<InputType>* currentInputs, std::set<JoystickInput *> * joystickInputs, CollisionMap * collisionMap) {
-    //Find joystick 1 and then break
+    handleJoystickInput(joystickInputs);
+    handleArrowKeyInput(currentInputs);
+
+    futureX = xDynamic->update(1/(double)60, futureSettleX);
+    futureY = yDynamic->update(1/(double)60, futureSettleY);
+}
+
+void Box::handleJoystickInput(std::set<JoystickInput *> * joystickInputs) {
     double xJoy;
     double yJoy;
     double lengthJoy;
 
+    //Find joystick 1 and then break
     for (JoystickInput * joystickInput : *joystickInputs) {
         if (joystickInput->controllerNumber == 1) {
             xJoy = joystickInput->x;
@@ -124,8 +132,8 @@ void Box::handleStateChanges(std::set<InputType>* currentInputs, std::set<Joysti
                 double normalizedX = xJoy/lengthJoy;
                 double normalizedY = yJoy/lengthJoy;
 
-                double finalX = normalizedX * 4;
-                double finalY = normalizedY * 4;
+                double finalX = normalizedX * VELOCITY;
+                double finalY = normalizedY * VELOCITY;
 
                 futureSettleX += finalX;
                 futureSettleY -= finalY;
@@ -137,27 +145,29 @@ void Box::handleStateChanges(std::set<InputType>* currentInputs, std::set<Joysti
             break;
         }
     }
-    
+}
+
+void Box::handleArrowKeyInput(std::set<InputType>* currentInputs) {
     if (currentInputs->find(InputType::UP_ARROW) != currentInputs->end()) {
-		futureSettleY += 9.2;
+		futureSettleY += VELOCITY;
 
         xDynamic->setFZR(1, 1, 0);
         yDynamic->setFZR(1, 1, 0);
 	}
 	else if (currentInputs->find(InputType::LEFT_ARROW) != currentInputs->end()) {
-		futureSettleX -= 9,2;
+		futureSettleX -= VELOCITY;
 
         xDynamic->setFZR(1, 1, 0);
         yDynamic->setFZR(1, 1, 0);
 	}
 	else if (currentInputs->find(InputType::RIGHT_ARROW) != currentInputs->end()) {
-		futureSettleX += 9.2;
+		futureSettleX += VELOCITY;
 
         xDynamic->setFZR(1, 1, 0);
         yDynamic->setFZR(1, 1, 0);
 	}
 	else if (currentInputs->find(InputType::DOWN_ARROW) != currentInputs->end()) {
-		futureSettleY -= 9.2;
+		futureSettleY -= VELOCITY;
 
         xDynamic->setFZR(1, 1, 0);
         yDynamic->setFZR(1, 1, 0);
@@ -166,17 +176,6 @@ void Box::handleStateChanges(std::set<InputType>* currentInputs, std::set<Joysti
         xDynamic->setFZR(-0.3125, -0.3125, 1.875);
         yDynamic->setFZR(-0.3125, -0.3125, 1.875);
     }
-
-    futureX = xDynamic->update(1/(double)60, futureSettleX);
-    futureY = yDynamic->update(1/(double)60, futureSettleY);
-
-
-    Hitbox* futurePosition = new Hitbox();
-	futurePosition->x = futureX;
-	futurePosition->y = futureY;
-	futurePosition->width = width;
-	futurePosition->height = height;
-	futurePosition->parent = this;
 }
 
 void Box::enactStateChanges() {
