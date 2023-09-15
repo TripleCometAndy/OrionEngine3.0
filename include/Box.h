@@ -37,6 +37,7 @@ private:
 
     void handleJoystickInput(std::set<JoystickInput *> * joystickInputs);
     void handleArrowKeyInput(std::set<InputType>* currentInputs);
+    void setDynamicForMovementWhileInput();
 
 public:
     Box(double x, double y, unsigned int width, unsigned int height, unsigned int virtualWidth, unsigned int virtualHeight, int r, int g, int b);

@@ -151,31 +151,32 @@ void Box::handleArrowKeyInput(std::set<InputType>* currentInputs) {
     if (currentInputs->find(InputType::UP_ARROW) != currentInputs->end()) {
 		futureSettleY += VELOCITY;
 
-        xDynamic->setFZR(1, 1, 0);
-        yDynamic->setFZR(1, 1, 0);
+        setDynamicForMovementWhileInput();
 	}
 	else if (currentInputs->find(InputType::LEFT_ARROW) != currentInputs->end()) {
 		futureSettleX -= VELOCITY;
 
-        xDynamic->setFZR(1, 1, 0);
-        yDynamic->setFZR(1, 1, 0);
+        setDynamicForMovementWhileInput();
 	}
 	else if (currentInputs->find(InputType::RIGHT_ARROW) != currentInputs->end()) {
 		futureSettleX += VELOCITY;
 
-        xDynamic->setFZR(1, 1, 0);
-        yDynamic->setFZR(1, 1, 0);
+        setDynamicForMovementWhileInput();
 	}
 	else if (currentInputs->find(InputType::DOWN_ARROW) != currentInputs->end()) {
 		futureSettleY -= VELOCITY;
 
-        xDynamic->setFZR(1, 1, 0);
-        yDynamic->setFZR(1, 1, 0);
+        setDynamicForMovementWhileInput();
 	}
     else {
         xDynamic->setFZR(-0.3125, -0.3125, 1.875);
         yDynamic->setFZR(-0.3125, -0.3125, 1.875);
     }
+}
+
+void Box::setDynamicForMovementWhileInput() {
+    xDynamic->setFZR(1, 1, 0);
+    yDynamic->setFZR(1, 1, 0);
 }
 
 void Box::enactStateChanges() {
