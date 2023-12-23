@@ -81,11 +81,14 @@ void OrionLoop::execute() {
 	entityManager->addEntity(c);
 	entityManager->addEntity(b);
 
-	int simulationTime = 0;
+	double simulationTime = 0;
     Timer timer;
 
 	bool quit = false;
 	unsigned int shaderProgram = gl::getShaderProgram(vertexShaderSource, fragmentShaderSource);
+
+	glEnable(GL_LINE_SMOOTH);
+	glfwSwapInterval(0);
 
 	while (!gl::shouldWindowClose(window)) {
 		gl::processInput(window);
@@ -100,11 +103,11 @@ void OrionLoop::execute() {
 			entityManager->handleStateChanges();
 			entityManager->enactStateChanges();
 			
-            simulationTime += 16;
+            simulationTime += 16.67;
         }
 
-        int frameTicks = timer.getTicks();
 		entityManager->showAll(shaderProgram);
+
 		gl::swapBuffers(window);
 		gl::pollEvents();
 	}

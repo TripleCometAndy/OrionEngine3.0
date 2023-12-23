@@ -201,11 +201,40 @@ void Box::enactStateChanges() {
 }
 
 void Box::show(int shaderProgram) {
-    unsigned int transformLoc = glGetUniformLocation(shaderProgram, "transform");
-    int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
-    glUseProgram(shaderProgram);
+    //Cache the uniform locations. Significant speed loss if we continuously grab them
+    if (!doHaveUniformLocations) {
+        transformLoc = getUniformLocation(shaderProgram, "transform");
+        vertexColorLoc = getUniformLocation(shaderProgram, "ourColor");
+        doHaveUniformLocations = true;
+    }
+
+    useProgram(shaderProgram);
+    uniformMatrix4fv(transformLoc);
+    uniform4f(vertexColorLoc);
+    bindVertexArray();
+    drawElements();
+}
+
+int Box::getUniformLocation(int shaderProgram, std::string uniform) {
+    return glGetUniformLocation(shaderProgram, uniform.c_str());
+}
+
+void Box::useProgram(int program) {
+    glUseProgram(program);
+}
+
+void Box::uniformMatrix4fv(int transformLoc) {
     glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
+}
+
+void Box::uniform4f(int vertexColorLocation) {
     glUniform4f(vertexColorLocation, r, g, b, 1.0f);
+}
+
+void Box::bindVertexArray() {
     glBindVertexArray(VAO);
+}
+
+void Box::drawElements() {
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
